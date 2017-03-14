@@ -9,13 +9,13 @@ var express    = require('express'),
     mlbContest = require('./models/mlbContest');
     
 // mongoose.connect('mongodb://localhost/ds'); // local test env
-mongoose.connect(configDB.url);
+mongoose.connect(configDB.url || process.env.MONGODB);
 
 var options = {
     hostname: 'jsonodds.com',
     path: '/api/odds/mlb', // api/odds/mlb?source=1 for specific source
     method: 'GET',
-    headers: { 'JsonOdds-API-Key' : jsonodds.key }
+    headers: { 'JsonOdds-API-Key' : jsonodds.key || process.env.JSONODDSKEY}
 };
 
 // retrieve odds from API, insert into mlbcontests collection
