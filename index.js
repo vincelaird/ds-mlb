@@ -4,10 +4,14 @@ var express    = require('express'),
     https      = require('https'),
     safeParse  = require('safe-json-parse/callback'),
     moment     = require('moment'),
-    configDB   = require('./db.env'),
-    jsonodds   = require('./jsonodds.env'),
     mlbContest = require('./models/mlbContest');
     
+// these are not required for production:
+if (process.env.NODE_ENV !== 'production'){
+    var configDB = require('./db.env'),
+        jsonodds = require('./jsonodds.env');
+}
+
 // mongoose.connect('mongodb://localhost/ds'); // local test env
 mongoose.connect(configDB.url || process.env.MONGODB);
 
