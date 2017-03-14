@@ -4,6 +4,7 @@ var express    = require('express'),
     https      = require('https'),
     safeParse  = require('safe-json-parse/callback'),
     moment     = require('moment'),
+    sleep      = require('sleep'),
     mlbContest = require('./models/mlbContest');
     
 // these are not required for production:
@@ -27,6 +28,7 @@ function request() {
     https.get(options, function(res){
         res.on('data', function(chunk){
             safeParse(chunk, function(e, json){
+                sleep.sleep(5); // pause while json is retrieved - should eliminate unexpected token / end of input errors
                 if(e){ console.log('Error occurred during parse: ' + e.message) }
                 else {
                     mlbContest.collection.insert(JSON.parse(chunk),function(e){
