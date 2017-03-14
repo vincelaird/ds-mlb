@@ -25,13 +25,18 @@ var options = {
 
 // retrieve odds from API, insert into mlbcontests collection
 function request() {
+    var data = '';
     https.get(options, function(res){
         res.on('data', function(chunk){
-            sleep.sleep(5); // pause while json is retrieved - should eliminate unexpected token / end of input errors
-            safeParse(chunk, function(e, json){
+            // removing this sleep, it didn't work
+            // sleep.sleep(5); // pause while json is retrieved - should eliminate unexpected token / end of input errors
+            data += chunk;
+        });
+        res.on('end', function(){
+            safeParse(data, function(e, json){
                 if(e){ console.log('Error occurred during parse: ' + e.message) }
                 else {
-                    mlbContest.collection.insert(JSON.parse(chunk),function(e){
+                    mlbContest.collection.insert(JSON.parse(data),function(e){
                         if(e){ console.log('Error occurred during insert to collection: ' + e) }
                         else {
                             console.log('You just inserted some MLB odds at: ' + moment().format('MMMM Do YYYY, h:mm:ss a'));
