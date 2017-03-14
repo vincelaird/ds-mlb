@@ -4,8 +4,8 @@ var express    = require('express'),
     https      = require('https'),
     safeParse  = require('safe-json-parse/callback'),
     moment     = require('moment'),
-    configDB   = require('./config/db'),
-    jsonodds   = require('./config/jsonodds'),
+    configDB   = require('./db.env'),
+    jsonodds   = require('./jsonodds.env'),
     mlbContest = require('./models/mlbContest');
     
 // mongoose.connect('mongodb://localhost/ds'); // local test env
